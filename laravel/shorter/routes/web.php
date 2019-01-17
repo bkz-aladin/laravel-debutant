@@ -10,27 +10,20 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Auth::routes();
 
+//Page d'acceuil avec le formulaire
 Route::get('/', function () {
     return view('welcome');
 });
 
+//lien pour récuperer le formulaire
+Route::post('/link/generate', 'LinkController@generate');
 
-Auth::routes();
+//Lien pour rediriger
+Route::get('/{short_link}', 'LinkController@redirect');
 
-Route::get('/blog/post/search/{name}', 'ArticleController@postByTitle');
+Route::get('/stats/{short_link}', 'LinkController@getStats');
 
-
-Route::get('/blog/post/create', 'ArticleController@create');
-
-
-Route::post('/blog/post/create', 'ArticleController@store');
-
-Route::get('/blog/post/{id}', 'ArticleController@display');
-
-
-Route::get('/blog/post/delete/{id}', 'ArticleController@delete');
-
-
-
-
+Route::get('/user/{id}/links', 'UserController@links')->middleware('auth');
+Route::get('/link/delete/{id}', 'LinkController@delete')->middleware('auth');
